@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>💗 A Very Important Question</title>
+  <meta name="description" content="A cute and playful interactive date invitation — just for you." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+
+<body>
+
+  <!-- ===== BACKGROUND HEARTS ===== -->
+  <div class="bg-hearts" id="bg-hearts" aria-hidden="true"></div>
+
+  <!-- ===== NO BUTTON VANISH MESSAGE ===== -->
+  <div id="no-vanish-msg" aria-live="polite"></div>
+
+  <!-- ===== MAIN APP ===== -->
+  <div id="app">
+
+    <!-- ══════════════════════════════════
+         SCREEN 1: INTRO / WILL YOU DATE?
+    ══════════════════════════════════════ -->
+    <section class="screen active" id="screen-intro" aria-label="Intro screen">
+      <div class="card">
+        <span class="big-emoji">👀</span>
+        <p class="eyebrow">Hey...</p>
+        <p class="tagline">I have a very important question for you.</p>
+        <h1 class="main-heading">Will you go on a date with me? 💗</h1>
+        <div class="button-group">
+          <button class="primary-button" id="yes-btn" onclick="handleYes()">YES ❤️</button>
+          <button class="secondary-button" id="no-btn" onclick="handleNo()">NO 😭</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SCREEN 2: YES REACTION
+    ══════════════════════════════════════ -->
+    <section class="screen" id="screen-yes" aria-label="Yes reaction screen">
+      <div class="card">
+        <span class="big-emoji">😭</span>
+        <h2 class="section-title">WAIT...</h2>
+        <p class="body-text">YOU ACTUALLY SAID YES?! 😭❤️</p>
+        <p class="body-text">Okay okay... let's plan this properly. 😌</p>
+        <div class="heart-streak">
+          <span>💗</span><span>💗</span><span>💗</span>
+        </div>
+        <button class="primary-button full-button" onclick="showScreen('screen-date')">
+          Let's do this →
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SCREEN 3: DATE SELECTION
+    ══════════════════════════════════════ -->
+    <section class="screen" id="screen-date" aria-label="Date and time selection">
+      <div class="card">
+        <div class="progress-dots" aria-label="Step 1 of 3">
+          <div class="progress-dot active"></div>
+          <div class="progress-dot"></div>
+          <div class="progress-dot"></div>
+        </div>
+        <span class="big-emoji">📅</span>
+        <h2 class="section-title">So... when are you free?</h2>
+        <p class="section-subtitle">Pick a date and time that works for you ✨</p>
+
+        <div class="input-group">
+          <label for="date-input">📅 Choose a date</label>
+          <input type="date" id="date-input" onchange="validateDate()" />
+        </div>
+
+        <div class="input-group" style="animation-delay: 0.55s;">
+          <label for="time-input">⏰ And what time?</label>
+          <input type="time" id="time-input" onchange="validateDate()" />
+        </div>
+
+        <button class="primary-button full-button" id="date-continue-btn" onclick="showScreen('screen-plan')" disabled>
+          That works! ❤️
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SCREEN 4: DATE PLAN
+    ══════════════════════════════════════ -->
+    <section class="screen" id="screen-plan" aria-label="Date plan selection">
+      <div class="card">
+        <div class="progress-dots" aria-label="Step 2 of 3">
+          <div class="progress-dot done"></div>
+          <div class="progress-dot active"></div>
+          <div class="progress-dot"></div>
+        </div>
+        <span class="big-emoji">✨</span>
+        <h2 class="section-title">What are we feeling?</h2>
+        <p class="section-subtitle">Pick one — we'll make it perfect 💫</p>
+
+        <div class="plan-grid" id="plan-grid">
+          <div class="plan-card" onclick="selectPlan(this, '🍕 Pizza')" role="button" tabindex="0" aria-label="Pizza">
+            <span class="plan-emoji">🍕</span>
+            <span class="plan-name">Pizza</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '🍣 Sushi')" role="button" tabindex="0" aria-label="Sushi">
+            <span class="plan-emoji">🍣</span>
+            <span class="plan-name">Sushi</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '🍔 Burgers')" role="button" tabindex="0"
+            aria-label="Burgers">
+            <span class="plan-emoji">🍔</span>
+            <span class="plan-name">Burgers</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '🍝 Pasta')" role="button" tabindex="0" aria-label="Pasta">
+            <span class="plan-emoji">🍝</span>
+            <span class="plan-name">Pasta</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '☕ Coffee')" role="button" tabindex="0" aria-label="Coffee">
+            <span class="plan-emoji">☕</span>
+            <span class="plan-name">Coffee</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '🎬 Movie')" role="button" tabindex="0" aria-label="Movie">
+            <span class="plan-emoji">🎬</span>
+            <span class="plan-name">Movie</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '🌆 Just go somewhere')" role="button" tabindex="0"
+            aria-label="Just go somewhere">
+            <span class="plan-emoji">🌆</span>
+            <span class="plan-name">Just go</span>
+          </div>
+          <div class="plan-card" onclick="selectPlan(this, '👀 Surprise me')" role="button" tabindex="0"
+            aria-label="Surprise me">
+            <span class="plan-emoji">👀</span>
+            <span class="plan-name">Surprise!</span>
+          </div>
+        </div>
+
+        <button class="primary-button full-button" id="plan-continue-btn" onclick="showSummary()" disabled>
+          Sounds perfect →
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SCREEN 5: DATE SUMMARY
+    ══════════════════════════════════════ -->
+    <section class="screen" id="screen-summary" aria-label="Date summary">
+      <div class="card">
+        <div class="progress-dots" aria-label="Step 3 of 3">
+          <div class="progress-dot done"></div>
+          <div class="progress-dot done"></div>
+          <div class="progress-dot active"></div>
+        </div>
+        <span class="big-emoji">😌</span>
+        <h2 class="section-title">Okay... we have a plan.</h2>
+        <p class="section-subtitle">Let's make sure this is perfect 🌸</p>
+        <div class="divider"></div>
+
+        <div class="summary-item">
+          <span class="summary-icon">📅</span>
+          <div>
+            <div class="summary-label">Date</div>
+            <div class="summary-value" id="summary-date">—</div>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon">⏰</span>
+          <div>
+            <div class="summary-label">Time</div>
+            <div class="summary-value" id="summary-time">—</div>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon">✨</span>
+          <div>
+            <div class="summary-label">Plan</div>
+            <div class="summary-value" id="summary-plan">—</div>
+          </div>
+        </div>
+
+        <button class="primary-button full-button" onclick="confirmDate()"
+          style="margin-top: 20px; opacity:0; animation: fadeUp 0.5s ease 0.75s both;">
+          Confirm Date ❤️
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SCREEN 6: DATE ACCEPTED
+    ══════════════════════════════════════ -->
+    <section class="screen" id="screen-accepted" aria-label="Date accepted">
+      <div class="card">
+        <h2 class="celebration-heading">DATE ACCEPTED! 🎉</h2>
+        <p class="body-text">Okay, it's officially happening. ❤️</p>
+        <div class="divider"></div>
+
+        <div class="summary-item">
+          <span class="summary-icon">📅</span>
+          <div>
+            <div class="summary-label">Date</div>
+            <div class="summary-value" id="accepted-date">—</div>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon">⏰</span>
+          <div>
+            <div class="summary-label">Time</div>
+            <div class="summary-value" id="accepted-time">—</div>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon">✨</span>
+          <div>
+            <div class="summary-label">Plan</div>
+            <div class="summary-value" id="accepted-plan">—</div>
+          </div>
+        </div>
+
+        <button class="primary-button full-button" onclick="showPayment()"
+          style="margin-top: 22px; opacity:0; animation: fadeUp 0.5s ease 0.9s both;">
+          💳 Make Payment
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════
+         SCREEN 7: FINAL CELEBRATION
+    ══════════════════════════════════════ -->
+    <section class="screen" id="screen-final" aria-label="Final celebration">
+      <div class="card">
+        <span class="big-emoji">🌷</span>
+        <h2 class="celebration-heading">IT'S A DATE! 🎉</h2>
+        <div class="heart-streak">
+          <span>💗</span><span>❤️</span><span>💗</span>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-icon">📅</span>
+          <div>
+            <div class="summary-label">Date</div>
+            <div class="summary-value" id="final-date">—</div>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon">⏰</span>
+          <div>
+            <div class="summary-label">Time</div>
+            <div class="summary-value" id="final-time">—</div>
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon">✨</span>
+          <div>
+            <div class="summary-label">Plan</div>
+            <div class="summary-value" id="final-plan">—</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="body-text" style="font-size:1.05rem; font-weight:700; color: var(--pink);">
+          Can't wait. ❤️
+        </p>
+        <p class="body-text">See you soon 🌸</p>
+
+        <div class="screenshot-prompt" style="opacity:0; animation: fadeUp 0.5s ease 1.2s both;">
+          <span class="screenshot-icon">📸</span>
+          <p>For confirmation, send me a screenshot of this!</p>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /#app -->
+
+  <!-- ══════════════════════════════════
+       PAYMENT MODAL
+  ══════════════════════════════════════ -->
+  <div class="modal-overlay" id="payment-modal" role="dialog" aria-modal="true" aria-label="Payment joke">
+    <div class="modal">
+      <span style="font-size:2.5rem; display:block; margin-bottom:12px;">💸</span>
+      <div class="pill-badge">One Last Thing</div>
+
+      <div id="payment-reveal-content">
+        <p class="reveal-line" id="pay-line-1"
+          style="font-size:1.2rem; font-weight:800; color:var(--text-dark); margin-bottom:14px;">
+          You already have my number...
+        </p>
+        <p class="reveal-line" id="pay-line-2" style="font-size:0.95rem; color:var(--text-mid); margin-bottom:14px;">
+          ...so make the payment there. 😌
+        </p>
+        <p class="reveal-line" id="pay-line-3" style="font-size:0.9rem; color:var(--text-soft); margin-bottom:20px;">
+          Thank you for your cooperation. 😂❤️
+        </p>
+        <div class="reveal-line" id="pay-line-fee" style="background: linear-gradient(135deg, var(--pink-pale), var(--lavender-light));
+                    border-radius: var(--radius-sm); padding: 14px 20px; margin-bottom: 24px;">
+          <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase;
+                      letter-spacing:1.5px; color:var(--text-soft); margin-bottom:4px;">Date Fee</div>
+          <div style="font-size:1.8rem; font-weight:900; color:var(--pink);">₹500</div>
+        </div>
+      </div>
+
+      <button class="primary-button full-button" id="payment-continue-btn" style="display:none;" onclick="showFinal()">
+        Continue →
+      </button>
+    </div>
+  </div>
+
+  <!-- reveal-modal removed -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>
